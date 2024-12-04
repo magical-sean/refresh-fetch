@@ -5,10 +5,14 @@ import merge from 'lodash/merge'
 
 type ResponseBody = Object | null | string
 
+function isFormData (obj: any): boolean {
+  return obj instanceof FormData
+}
+
 const fetchJSON = (url: string | Request | URL, options: Object = {}) => {
   // The Content-Type header describes the type of the body so should be
   // omitted when there isn't one.
-  const fetchOptions = typeof (options.body) === 'undefined'
+  const fetchOptions = typeof (options.body) === 'undefined' || isFormData(options.body)
     ? options
     : merge(
       {
